@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import net.nortlam.kubernetes.api.util.InstantDataAdapter;
 
 /**
  * PodStatus represents information about the status of a pod. 
@@ -65,7 +67,8 @@ public class PodStatus implements Serializable {
      * the Kubelet. This is before the Kubelet pulled the container image(s) 
      * for the pod.
      */
-    @XmlElement(name="startTime", required = false, type = Instant.class)
+    @XmlElement(name="startTime", required = false)
+    @XmlJavaTypeAdapter(InstantDataAdapter.class)
     private Instant startTime;
 
     /**

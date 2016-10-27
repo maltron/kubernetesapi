@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import net.nortlam.kubernetes.api.util.InstantDataAdapter;
 
 /**
  * ObjectMeta is metadata that all persisted resources must have, 
@@ -121,7 +123,8 @@ public class ObjectMeta implements Serializable {
      * Populated by the system. Read-only. Null for lists. 
      * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
      */
-    @XmlElement(name = "creationTimestamp", required = false, type=Instant.class)
+    @XmlElement(name = "creationTimestamp", required = false)
+    @XmlJavaTypeAdapter(InstantDataAdapter.class)
     private Instant creationTimestamp;
     
     /**
@@ -141,7 +144,8 @@ public class ObjectMeta implements Serializable {
      * 
      * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
      */
-    @XmlElement(name = "deletionTimestamp", required = false, type=Instant.class)
+    @XmlElement(name = "deletionTimestamp", required = false)
+    @XmlJavaTypeAdapter(InstantDataAdapter.class)
     private Instant deletionTimestamp;
     
     /**

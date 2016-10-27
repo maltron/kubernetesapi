@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import net.nortlam.kubernetes.api.util.InstantDataAdapter;
 
 /**
  * Event is a report of an event somewhere in the cluster.
@@ -94,13 +96,15 @@ public class Event implements Serializable {
      * The time at which the event was first recorded. 
      * (Time of server receipt is in TypeMeta.)
      */
-    @XmlElement(name="firstTimestamp", required = false, type = Instant.class)
+    @XmlElement(name="firstTimestamp", required = false)
+    @XmlJavaTypeAdapter(InstantDataAdapter.class)
     private Instant firstTimestamp;
     
     /**
      * The time at which the most recent occurrence of this event was recorded.
      */
-    @XmlElement(name="lastTimestamp", required = false, type = Instant.class)
+    @XmlElement(name="lastTimestamp", required = false)
+    @XmlJavaTypeAdapter(InstantDataAdapter.class)
     private Instant lastTimestamp;
     
     /**
