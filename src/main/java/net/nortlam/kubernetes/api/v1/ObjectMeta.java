@@ -1,7 +1,24 @@
+/**
+ * Copyright 2014 Mauricio "Maltron" Leal <maltron@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.nortlam.kubernetes.api.v1;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -182,4 +199,454 @@ public class ObjectMeta implements Serializable {
      */
     @XmlElement(name = "clusterName", required = false, type=String.class)
     private String clusterName;
+
+    public ObjectMeta() {
+    }
+
+    /**
+     * Name must be unique within a namespace. Is required when creating 
+     * resources, although some resources may allow a client to request the 
+     * generation of an appropriate name automatically. Name is primarily 
+     * intended for creation idempotence and configuration definition. 
+     * 
+     * Cannot be updated. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/identifiers.md#names
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Name must be unique within a namespace. Is required when creating 
+     * resources, although some resources may allow a client to request the 
+     * generation of an appropriate name automatically. Name is primarily 
+     * intended for creation idempotence and configuration definition. 
+     * 
+     * Cannot be updated. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/identifiers.md#names
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * If this field is specified and the generated name exists, the server will 
+     * NOT return a 409 - instead, it will either return 201 Created or 500 
+     * with Reason ServerTimeout indicating a unique name could not be found 
+     * in the time allotted, and the client should retry (optionally after the 
+     * time indicated in the Retry-After header).
+     * 
+     * Applied only if Name is not specified. 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#idempotency
+     */
+    public String getGenerateName() {
+        return generateName;
+    }
+
+    /**
+     * If this field is specified and the generated name exists, the server will 
+     * NOT return a 409 - instead, it will either return 201 Created or 500 
+     * with Reason ServerTimeout indicating a unique name could not be found 
+     * in the time allotted, and the client should retry (optionally after the 
+     * time indicated in the Retry-After header).
+     * 
+     * Applied only if Name is not specified. 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#idempotency
+     */
+    public void setGenerateName(String generateName) {
+        this.generateName = generateName;
+    }
+
+    /**
+     * Namespace defines the space within each name must be unique. 
+     * An empty namespace is equivalent to the "default" namespace, 
+     * but "default" is the canonical representation. Not all objects are 
+     * required to be scoped to a namespace - the value of this field for 
+     * those objects will be empty.
+     * 
+     * Must be a DNS_LABEL. Cannot be updated. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/namespaces.md
+     */
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
+     * Namespace defines the space within each name must be unique. 
+     * An empty namespace is equivalent to the "default" namespace, 
+     * but "default" is the canonical representation. Not all objects are 
+     * required to be scoped to a namespace - the value of this field for 
+     * those objects will be empty.
+     * 
+     * Must be a DNS_LABEL. Cannot be updated. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/namespaces.md
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    /**
+     * SelfLink is a URL representing this object. Populated by the system. Read-only.
+     */
+    public String getSelfLink() {
+        return selfLink;
+    }
+
+    /**
+     * SelfLink is a URL representing this object. Populated by the system. Read-only.
+     */
+    public void setSelfLink(String selfLink) {
+        this.selfLink = selfLink;
+    }
+
+    /**
+     * UID is the unique in time and space value for this object. 
+     * It is typically generated by the server on successful creation of a 
+     * resource and is not allowed to change on PUT operations.
+     * 
+     * Populated by the system. Read-only. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/identifiers.md#uids
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * UID is the unique in time and space value for this object. 
+     * It is typically generated by the server on successful creation of a 
+     * resource and is not allowed to change on PUT operations.
+     * 
+     * Populated by the system. Read-only. 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/identifiers.md#uids
+     */
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    /**
+     * An opaque value that represents the internal version of this object 
+     * that can be used by clients to determine when objects have changed. 
+     * May be used for optimistic concurrency, change detection, and the watch 
+     * operation on a resource or set of resources. Clients must treat these 
+     * values as opaque and passed unmodified back to the server. 
+     * 
+     * They may only be valid for a particular resource or set of resources.
+     * 
+     * Populated by the system. Read-only. 
+     * Value must be treated as opaque by clients and . 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#concurrency-control-and-consistency
+     */
+    public String getResourceVersion() {
+        return resourceVersion;
+    }
+
+    /**
+     * An opaque value that represents the internal version of this object 
+     * that can be used by clients to determine when objects have changed. 
+     * May be used for optimistic concurrency, change detection, and the watch 
+     * operation on a resource or set of resources. Clients must treat these 
+     * values as opaque and passed unmodified back to the server. 
+     * 
+     * They may only be valid for a particular resource or set of resources.
+     * 
+     * Populated by the system. Read-only. 
+     * Value must be treated as opaque by clients and . 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#concurrency-control-and-consistency
+     */
+    public void setResourceVersion(String resourceVersion) {
+        this.resourceVersion = resourceVersion;
+    }
+
+    /**
+     * A sequence number representing a specific generation of the desired state. 
+     * 
+     * Populated by the system. Read-only.
+     */
+    public long getGeneration() {
+        return generation;
+    }
+
+    /**
+     * A sequence number representing a specific generation of the desired state. 
+     * 
+     * Populated by the system. Read-only.
+     */
+    public void setGeneration(long generation) {
+        this.generation = generation;
+    }
+
+    /**
+     * CreationTimestamp is a timestamp representing the server time when this 
+     * object was created. It is not guaranteed to be set in happens-before 
+     * order across separate operations. Clients may not set this value. 
+     * It is represented in RFC3339 form and is in UTC.
+     * 
+     * Populated by the system. Read-only. Null for lists. 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
+     */
+    public Instant getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    /**
+     * CreationTimestamp is a timestamp representing the server time when this 
+     * object was created. It is not guaranteed to be set in happens-before 
+     * order across separate operations. Clients may not set this value. 
+     * It is represented in RFC3339 form and is in UTC.
+     * 
+     * Populated by the system. Read-only. Null for lists. 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
+     */
+    public void setCreationTimestamp(Instant creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    /**
+     * DeletionTimestamp is RFC 3339 date and time at which this resource 
+     * will be deleted. This field is set by the server when a graceful 
+     * deletion is requested by the user, and is not directly settable by a 
+     * client. The resource will be deleted (no longer visible from resource 
+     * lists, and not reachable by name) after the time in this field. 
+     * Once set, this value may not be unset or be set further into the future, 
+     * although it may be shortened or the resource may be deleted prior to 
+     * this time. For example, a user may request that a pod is deleted in 
+     * 30 seconds. The Kubelet will react by sending a graceful termination 
+     * signal to the containers in the pod. Once the resource is deleted in the API, 
+     * the Kubelet will send a hard termination signal to the container. 
+     * If not set, graceful deletion of the object has not been requested.
+     * Populated by the system when a graceful deletion is requested. Read-only. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
+     */
+    public Instant getDeletionTimestamp() {
+        return deletionTimestamp;
+    }
+
+    /**
+     * DeletionTimestamp is RFC 3339 date and time at which this resource 
+     * will be deleted. This field is set by the server when a graceful 
+     * deletion is requested by the user, and is not directly settable by a 
+     * client. The resource will be deleted (no longer visible from resource 
+     * lists, and not reachable by name) after the time in this field. 
+     * Once set, this value may not be unset or be set further into the future, 
+     * although it may be shortened or the resource may be deleted prior to 
+     * this time. For example, a user may request that a pod is deleted in 
+     * 30 seconds. The Kubelet will react by sending a graceful termination 
+     * signal to the containers in the pod. Once the resource is deleted in the API, 
+     * the Kubelet will send a hard termination signal to the container. 
+     * If not set, graceful deletion of the object has not been requested.
+     * Populated by the system when a graceful deletion is requested. Read-only. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/devel/api-conventions.md#metadata
+     */
+    public void setDeletionTimestamp(Instant deletionTimestamp) {
+        this.deletionTimestamp = deletionTimestamp;
+    }
+
+    /**
+     * Number of seconds allowed for this object to gracefully terminate before 
+     * it will be removed from the system. Only set when deletionTimestamp 
+     * is also set. May only be shortened. Read-only.
+     */
+    public long getDeletionGracePeriodSeconds() {
+        return deletionGracePeriodSeconds;
+    }
+
+    /**
+     * Number of seconds allowed for this object to gracefully terminate before 
+     * it will be removed from the system. Only set when deletionTimestamp 
+     * is also set. May only be shortened. Read-only.
+     */
+    public void setDeletionGracePeriodSeconds(long deletionGracePeriodSeconds) {
+        this.deletionGracePeriodSeconds = deletionGracePeriodSeconds;
+    }
+
+    /**
+     * Map of string keys and values that can be used to organize and 
+     * categorize (scope and select) objects. May match selectors of 
+     * replication controllers and services. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/labels.md
+     */
+    public Object getLabels() {
+        return labels;
+    }
+
+    /**
+     * Map of string keys and values that can be used to organize and 
+     * categorize (scope and select) objects. May match selectors of 
+     * replication controllers and services. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/labels.md
+     */
+    public void setLabels(Object labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * Annotations is an unstructured key value map stored with a resource that 
+     * may be set by external tools to store and retrieve arbitrary metadata. 
+     * They are not queryable and should be preserved when modifying objects. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/annotations.md
+     */
+    public Object getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * Annotations is an unstructured key value map stored with a resource that 
+     * may be set by external tools to store and retrieve arbitrary metadata. 
+     * They are not queryable and should be preserved when modifying objects. 
+     * 
+     * More info: http://releases.k8s.io/release-1.4/docs/user-guide/annotations.md
+     */
+    public void setAnnotations(Object annotations) {
+        this.annotations = annotations;
+    }
+
+    /**
+     * List of objects depended by this object. If ALL objects in the list have 
+     * been deleted, this object will be garbage collected. If this object is 
+     * managed by a controller, then an entry in this list will point to this 
+     * controller, with the controller field set to true. 
+     * There cannot be more than one managing controller.
+     */
+    public OwnerReference getOwnerReferences() {
+        return ownerReferences;
+    }
+
+    /**
+     * List of objects depended by this object. If ALL objects in the list have 
+     * been deleted, this object will be garbage collected. If this object is 
+     * managed by a controller, then an entry in this list will point to this 
+     * controller, with the controller field set to true. 
+     * There cannot be more than one managing controller.
+     */
+    public void setOwnerReferences(OwnerReference ownerReferences) {
+        this.ownerReferences = ownerReferences;
+    }
+
+    /**
+     * Must be empty before the object is deleted from the registry. 
+     * Each entry is an identifier for the responsible component that will 
+     * remove the entry from the list. If the deletionTimestamp of the object 
+     * is non-nil, entries in this list can only be removed.
+     */
+    public String[] getFinalizers() {
+        return finalizers;
+    }
+
+    /**
+     * Must be empty before the object is deleted from the registry. 
+     * Each entry is an identifier for the responsible component that will 
+     * remove the entry from the list. If the deletionTimestamp of the object 
+     * is non-nil, entries in this list can only be removed.
+     */
+    public void setFinalizers(String[] finalizers) {
+        this.finalizers = finalizers;
+    }
+
+    /**
+     * The name of the cluster which the object belongs to. This is used to 
+     * distinguish resources with same name and namespace in different clusters. 
+     * This field is not set anywhere right now and apiserver is going to 
+     * ignore it if set in create or update request.
+     */
+    public String getClusterName() {
+        return clusterName;
+    }
+
+    /**
+     * The name of the cluster which the object belongs to. This is used to 
+     * distinguish resources with same name and namespace in different clusters. 
+     * This field is not set anywhere right now and apiserver is going to 
+     * ignore it if set in create or update request.
+     */
+    public void setClusterName(String clusterName) {
+        this.clusterName = clusterName;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.generateName);
+        hash = 37 * hash + Objects.hashCode(this.namespace);
+        hash = 37 * hash + Objects.hashCode(this.selfLink);
+        hash = 37 * hash + Objects.hashCode(this.uid);
+        hash = 37 * hash + Objects.hashCode(this.resourceVersion);
+        hash = 37 * hash + (int) (this.generation ^ (this.generation >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.creationTimestamp);
+        hash = 37 * hash + Objects.hashCode(this.deletionTimestamp);
+        hash = 37 * hash + (int) (this.deletionGracePeriodSeconds ^ (this.deletionGracePeriodSeconds >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.labels);
+        hash = 37 * hash + Objects.hashCode(this.annotations);
+        hash = 37 * hash + Objects.hashCode(this.ownerReferences);
+        hash = 37 * hash + Arrays.deepHashCode(this.finalizers);
+        hash = 37 * hash + Objects.hashCode(this.clusterName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ObjectMeta other = (ObjectMeta) obj;
+        if (this.generation != other.generation) {
+            return false;
+        }
+        if (this.deletionGracePeriodSeconds != other.deletionGracePeriodSeconds) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.generateName, other.generateName)) {
+            return false;
+        }
+        if (!Objects.equals(this.namespace, other.namespace)) {
+            return false;
+        }
+        if (!Objects.equals(this.selfLink, other.selfLink)) {
+            return false;
+        }
+        if (!Objects.equals(this.uid, other.uid)) {
+            return false;
+        }
+        if (!Objects.equals(this.resourceVersion, other.resourceVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.clusterName, other.clusterName)) {
+            return false;
+        }
+        if (!Objects.equals(this.creationTimestamp, other.creationTimestamp)) {
+            return false;
+        }
+        if (!Objects.equals(this.deletionTimestamp, other.deletionTimestamp)) {
+            return false;
+        }
+        if (!Objects.equals(this.labels, other.labels)) {
+            return false;
+        }
+        if (!Objects.equals(this.annotations, other.annotations)) {
+            return false;
+        }
+        if (!Objects.equals(this.ownerReferences, other.ownerReferences)) {
+            return false;
+        }
+        if (!Arrays.deepEquals(this.finalizers, other.finalizers)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
